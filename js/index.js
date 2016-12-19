@@ -117,20 +117,6 @@ function draw(){
 
 }
 
-
-function mysort(){
-    console.log(dataset);
-    dataset.sort(d3.ascending);
-    console.log(dataset.sort(d3.ascending));
-    // dataset.sort(function(a,b){
-    //  return a-b;
-    // });
-    // console.log(dataset.sort(function(a,b){
-    //  return a-b;
-    // }));
-    draw();
-}
-
 function myadd(){
     dataset.push(Math.floor(Math.random()*100));
     console.log(dataset);
