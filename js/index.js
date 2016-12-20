@@ -1,28 +1,41 @@
-var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
-    11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
-var w = 500;
-var h = 100;
-var barpadding = 1;
+var data = {
+    dataset : [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
+        11, 12, 15, 20, 18, 17, 16, 18, 23, 25],
+    w : 500,
+    h : 160
+};
 
 var svg = d3.select("body")
             .append("svg")
-            .attr("width", w)
-            .attr("height", h);
+            .attr("width", data.w)
+            .attr("height", data.h);
+
+//创建比例尺函数
+var xScale = d3.scale.ordinal()
+    //输入值域
+    .domain(d3.range(data.dataset.length))
+    //输出范围
+    .rangeRoundBands([0, data.w], 0.05);
+
+// //创建数轴
+// var xAxis = d3.svg.axis()
+//     .scale(xScale)
+//     .orientation("bottom");
 
 svg.selectAll("rect")
-    .data(dataset)
+    .data(data.dataset)
     .enter()
     .append("rect")
     .classed("bar", true)
     .attr("x", function(d, i) {
-        return (w / dataset.length) * i;
+        return xScale(i);
     })
     .attr("y", function (d) {
-        return h - d * 4;
+        return data.h - d * 4;
     })
-    .attr("width", function() {
-        return (w / dataset.length - barpadding)
-    })
+
+    .attr("width", xScale.rangeBand())
+
     .attr("height", function (d) {
         return d * 4;
     })
@@ -31,21 +44,27 @@ svg.selectAll("rect")
         });
 
 svg.selectAll("text")
-    .data(dataset)
+    .data(data.dataset)
     .enter()
     .append("text")
     .text(function (d) {
         return d;
     })
     .attr("x", function (d, i) {
-        return i * (w / dataset.length) + 5;
+        return xScale(i) + 4;
     })
     .attr("y", function (d, i) {
-       return h - (d * 4) + 15;
+       return data.h - (d * 4) + 15;
     });
 
+// //调用数轴函数
+// svg.append("g").call(xAxis);
 
-    //多值映射写法失败，可能是版本问题
+//生成坐标ID值
+
+
+
+    //多值映射写法
     // .attr({
     //     x: function(d, i) {
     //         return (w / dataset.length + barpadding) * i;
