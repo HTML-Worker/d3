@@ -5,22 +5,30 @@ var data = {
     h : 160
 };
 
+//创建svg模型对象
 var svg = d3.select("body")
             .append("svg")
             .attr("width", data.w)
             .attr("height", data.h);
 
-//创建比例尺函数
+//创建x比例尺函数
 var xScale = d3.scale.ordinal()
     //输入值域
     .domain(d3.range(data.dataset.length))
     //输出范围
     .rangeRoundBands([0, data.w], 0.05);
+//创建y比例尺
+var yScale = d3.scale.ordinal()
+    .domain([0, d3.max(data.dataset, function (d) {
+        return d[0];
+    })])
+    .rangeRoundBands([0, data.h]);
 
-// //创建数轴
-// var xAxis = d3.svg.axis()
-//     .scale(xScale)
-//     .orientation("bottom");
+//创建x数轴
+var xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient("bottom");
+
 
 svg.selectAll("rect")
     .data(data.dataset)
@@ -37,7 +45,7 @@ svg.selectAll("rect")
     .attr("width", xScale.rangeBand())
 
     .attr("height", function (d) {
-        return d * 4;
+        return d * 4 - 4;
     })
     .attr("fill", function (d) {
         return "rgb(56, 193, " + (d * 10) + ")";
@@ -57,8 +65,11 @@ svg.selectAll("text")
        return data.h - (d * 4) + 15;
     });
 
-// //调用数轴函数
-// svg.append("g").call(xAxis);
+//调用数轴函数
+svg.append("g")
+    .classed("xAxis", true)
+    .attr("transform", "translate(0,"+ (data.h - 4) +")")
+    .call(xAxis);
 
 //生成坐标ID值
 

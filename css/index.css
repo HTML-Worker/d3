@@ -7,3 +7,10 @@ svg .bar {
     display: inline-block;
     background-color: blueviolet;
 }
+
+.xAxis path,
+.xAxis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
