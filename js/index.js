@@ -21,18 +21,18 @@ var xScale = d3.scale.ordinal()
 
 //创建y比例尺
 var yScale = d3.scale.linear()
-    .domain([0,d3.max(data.dataset, function (d) {
-        return d[0]
-    })])
-    .range([data.w, 0]);
+    .domain([0, d3.max(data.dataset)])
+    .range([data.h, 0]);
 
 //创建数轴
 var xAxis = d3.svg.axis()
     .scale(xScale)
-    .orient("bottom");
+    .orient("bottom")
+    .tickSize(0, 0);
 var yAxis = d3.svg.axis()
     .scale(yScale)
-    .orient("left");
+    .orient("left")
+    .tickSize(0, 0);
 
 
 svg.selectAll("rect")
@@ -48,7 +48,7 @@ svg.selectAll("rect")
     })
     .attr("width", xScale.rangeBand())
     .attr("height", function (d) {
-        return d * 4 - 4;
+        return d * 4;
     })
     .attr("fill", function (d) {
         return "rgb(56, 193, " + (d * 10) + ")";
@@ -80,7 +80,8 @@ svg.append("g")
     .call(xAxis);
 svg.append("g")
     .classed("xAxis", true)
-    .attr("transform", "translate("+ xScale.rangeBand() / 2 +", 0)")
+    .attr("transform", "translate("+ xScale.rangeBand() / 2 +","+ (- data.padding) +")")
+    .attr("font-size", "9px")
     .call(yAxis);
 
 //生成坐标ID值
