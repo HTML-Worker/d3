@@ -8,6 +8,10 @@ svg .bar {
     background-color: blueviolet;
 }
 
+svg {
+    margin-left: 10px;
+}
+
 .xAxis path,
 .xAxis line {
     fill: none;
