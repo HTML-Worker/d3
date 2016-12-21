@@ -3,10 +3,14 @@
     padding: 0;
 }
 
-body .bar {
+svg .bar {
     display: inline-block;
-    height: 100px;
-    width: 25px;
-    margin-left: 5px;
     background-color: blueviolet;
+}
+
+.xAxis path,
+.xAxis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
 }
