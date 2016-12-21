@@ -1,7 +1,7 @@
 var data = {
     dataset : [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
         11, 12, 15, 20, 18, 17, 16, 18, 23, 25],
-    w : 500,
+    w : 600,
     h : 160,
     padding : 20
 };
@@ -12,7 +12,7 @@ var svg = d3.select("body")
             .attr("width", data.w)
             .attr("height", data.h);
 
-//创建x比例尺函数
+//创建x比例尺
 var xScale = d3.scale.ordinal()
     //输入值域
     .domain(d3.range(data.dataset.length))
@@ -75,12 +75,13 @@ svg.selectAll("text")
 //调用数轴函数
 svg.append("g")
     .classed("xAxis", true)
-    .attr("transform", "translate("+ xScale.rangeBand() / 2 +","+ (data.h - data.padding) +")")
+    // .attr("transform", "translate("+ xScale.rangeBand() / 2 +","+ (data.h - data.padding) +")")
+    .attr("transform", "translate(0,"+ (data.h - data.padding) +")")
     .attr("font-size", "11px")
     .call(xAxis);
 svg.append("g")
     .classed("xAxis", true)
-    .attr("transform", "translate("+ xScale.rangeBand() / 2 +","+ (- data.padding) +")")
+    .attr("transform", "translate("+ xScale(0) +","+ (- data.padding) +")")
     .attr("font-size", "9px")
     .call(yAxis);
 
