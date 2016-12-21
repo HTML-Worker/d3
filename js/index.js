@@ -17,17 +17,22 @@ var xScale = d3.scale.ordinal()
     .domain(d3.range(data.dataset.length))
     //输出范围
     .rangeRoundBands([0, data.w], 0.05);
-//创建y比例尺
-var yScale = d3.scale.ordinal()
-    .domain([0, d3.max(data.dataset, function (d) {
-        return d[0];
-    })])
-    .rangeRoundBands([0, data.h]);
 
-//创建x数轴
+//创建y比例尺
+var yScale = d3.scale.linear()
+    .domain([0,d3.max(data.dataset, function (d) {
+        return d[0]
+    })])
+    .range([data.w, 0]);
+
+//创建数轴
 var xAxis = d3.svg.axis()
     .scale(xScale)
     .orient("bottom");
+var yAxis = d3.svg.axis()
+    .scale(yScale)
+    .orient("left")
+    .ticks(3);
 
 
 svg.selectAll("rect")
@@ -41,9 +46,7 @@ svg.selectAll("rect")
     .attr("y", function (d) {
         return data.h - d * 4;
     })
-
     .attr("width", xScale.rangeBand())
-
     .attr("height", function (d) {
         return d * 4 - 4;
     })
@@ -68,10 +71,15 @@ svg.selectAll("text")
 //调用数轴函数
 svg.append("g")
     .classed("xAxis", true)
-    .attr("transform", "translate(0,"+ (data.h - 4) +")")
+    .attr("transform", "translate("+ xScale(0) * 1.05 +","+ (data.h - 4) +")")
     .call(xAxis);
+svg.append("g")
+    .classed("xAxis", true)
+    .attr("transform", "translate("+ xScale(0) * 1.05 +", 0)")
+    .call(yAxis);
 
 //生成坐标ID值
+svg.selectAll("text")
 
 
 
