@@ -19,12 +19,12 @@ var xScale = d3.scale.ordinal()
     //输入值域
     .domain(d3.range(data.dataset.length))
     //输出范围
-    .rangeRoundBands([0, data.w], 0.05);
+    .rangeRoundBands([data.padding, data.w - data.padding], 0.05);
 
 //创建y比例尺
 var yScale = d3.scale.linear()
-    .domain([0, 40])
-    .range([data.h, 0]);
+    .domain([0, d3.max(data.dataset)])
+    .range([0, data.h - data.padding * 2]);
 
 //创建数轴
 var xAxis = d3.svg.axis()
@@ -47,11 +47,11 @@ svg.selectAll("rect")
         return xScale(i) + data.paddingLeft;
     })
     .attr("y", function (d) {
-        return data.h - d * 4 - data.padding;
+        return data.h - yScale(d) - data.padding;
     })
     .attr("width", xScale.rangeBand())
     .attr("height", function (d) {
-        return d * 4;
+        return yScale(d);
     })
     .attr("fill", function (d) {
         return "rgb(56, 193, " + (d * 10) + ")";
@@ -69,7 +69,7 @@ svg.selectAll("text")
         return xScale(i) + xScale.rangeBand() / 2 + data.paddingLeft;
     })
     .attr("y", function (d) {
-       return data.h - (d * 4) - data.padding + 13;
+        return data.h - yScale(d) - data.padding + 13;
     })
     .attr("font-family", "sans-serif")
     .attr("font-size", "11px")
@@ -83,7 +83,7 @@ svg.append("g")
     .call(xAxis);
 svg.append("g")
     .classed("xAxis", true)
-    .attr("transform", "translate("+ (data.paddingLeft + xScale(0)) +","+ (- data.padding) +")")
+    .attr("transform", "translate("+ (data.paddingLeft + xScale(0)) +","+ data.padding+")")
     .attr("font-size", "9px")
     .call(yAxis);
 
