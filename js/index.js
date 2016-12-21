@@ -2,7 +2,8 @@ var data = {
     dataset : [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
         11, 12, 15, 20, 18, 17, 16, 18, 23, 25],
     w : 500,
-    h : 160
+    h : 160,
+    padding : 20
 };
 
 //创建svg模型对象
@@ -31,8 +32,7 @@ var xAxis = d3.svg.axis()
     .orient("bottom");
 var yAxis = d3.svg.axis()
     .scale(yScale)
-    .orient("left")
-    .ticks(3);
+    .orient("left");
 
 
 svg.selectAll("rect")
@@ -44,7 +44,7 @@ svg.selectAll("rect")
         return xScale(i);
     })
     .attr("y", function (d) {
-        return data.h - d * 4;
+        return data.h - d * 4 - data.padding;
     })
     .attr("width", xScale.rangeBand())
     .attr("height", function (d) {
@@ -61,25 +61,30 @@ svg.selectAll("text")
     .text(function (d) {
         return d;
     })
+    .attr("text-anchor", "middle")
     .attr("x", function (d, i) {
-        return xScale(i) + 4;
+        return xScale(i) + xScale.rangeBand() / 2;
     })
-    .attr("y", function (d, i) {
-       return data.h - (d * 4) + 15;
-    });
+    .attr("y", function (d) {
+       return data.h - (d * 4) - data.padding + 13;
+    })
+    .attr("font-family", "sans-serif")
+    .attr("font-size", "11px")
+    .attr("fill", "white");
 
 //调用数轴函数
 svg.append("g")
     .classed("xAxis", true)
-    .attr("transform", "translate("+ xScale(0) * 1.05 +","+ (data.h - 4) +")")
+    .attr("transform", "translate("+ xScale.rangeBand() / 2 +","+ (data.h - data.padding) +")")
+    .attr("font-size", "11px")
     .call(xAxis);
 svg.append("g")
     .classed("xAxis", true)
-    .attr("transform", "translate("+ xScale(0) * 1.05 +", 0)")
+    .attr("transform", "translate("+ xScale.rangeBand() / 2 +", 0)")
     .call(yAxis);
 
 //生成坐标ID值
-svg.selectAll("text")
+// svg.selectAll("text")
 
 
 
