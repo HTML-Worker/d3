@@ -13,7 +13,10 @@ svg {
 }
 
 .xAxis path,
-.xAxis line {
+.xAxis line,
+.yAxis path,
+.yAxis line
+{
     fill: none;
     stroke: black;
     shape-rendering: crispEdges;
